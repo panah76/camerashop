@@ -4,7 +4,7 @@
 <!------ Include the above in your HEAD tag ---------->
 @extends("admin.panel")
 @section("content")
-<form action="admin/news/add_check" method="post" enctype="multipart/form-data">
+<form action="admin/news/add_news_check" method="post" enctype="multipart/form-data">
     @csrf
     <fieldset>
 
