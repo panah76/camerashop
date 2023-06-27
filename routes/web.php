@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -27,15 +30,6 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\IndexController;
-use App\Http\Controllers\AdminController;
-//Route::get('/', function () {
-//    $users = DB::select("select * from user where id=1");
-//    dd('$user');
-//});
-Route::get('/index', [IndexController::class, 'index']);
-Route::post('/login_check', [AdminController::class, 'login_check']);
-Route::get('/admin/panel', [AdminController::class, 'panel']);
-Route::get('/admin/news/add', [AdminController::class, 'add_news_pro']);
-Route::post('/admin/news/add_check', [AdminController::class, 'add_news_check']);
+use App\Http\Controllers\ProductController;
 Route::resource('user',UserController::class);
+Route::resource('/product',ProductController::class);
