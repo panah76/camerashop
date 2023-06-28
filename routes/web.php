@@ -18,6 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -31,5 +32,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
-Route::resource('user',UserController::class);
-Route::resource('/product',ProductController::class);
+//Route::resource('user',UserController::class);
+//Route::resource('/product',ProductController::class);
+Route::resource('products', ProductController::class);

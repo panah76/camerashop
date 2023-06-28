@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    function search($id)
+    public function index()
     {
-        $product = product::where('id'.$id)->get();
-        return response()->json($product);
 
-}
+
+        $products = "product list from ProductController";
+        return view('products.index',['products' => $products]);
+    }
 }
