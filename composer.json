@@ -1,6 +1,10 @@
 {
     "name": "laravel/laravel",
+<<<<<<< HEAD
     "authors": "",
+=======
+    "authors": [{"name":"Zahra Panahi","role": "CTO"}],
+>>>>>>> 8af6751d687107c3fba120cf45f50d68be1b4fd5
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
