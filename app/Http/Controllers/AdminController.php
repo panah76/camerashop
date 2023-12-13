@@ -3,68 +3,60 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\Admin\LoginRequest;
+
+use Illuminate\Support\Facades\Auth;
 use Session;
 
 class AdminController extends Controller
 {
-    public function add_news_pro()
+    public function login_form()
     {
-        return view("admin.news.add");
+        return view('auth.login');
     }
 
-    public function add_news_check(Request $request)
+    public function login(LoginRequest $request)
     {
-        $title=$request->title;
-        $image=$request->image;
-        $category=$request->category;
-        $description=$request->description;
-        if (isset($image))
-        {
-        $image_size=$image->getSize()/1024;
-        if ($image_size>1024)
-        {
-            Session::flash("error_massage", "Please Select Image Max 1 Mb");
-            return redirect()->back();
-        }
-        }
-        else{
-           $image_extension=$image->getClientOriginalExtension();
-           $extension_array=array("jpg","png");
-           if (in_array($image_extension,$extension_array))
-           {
-               $image_name=$image->getClientOriginalName();
-               $image->move("pro_images","$image_name");
-           }
-        }
-    }
-
-    public function login_check(Request $request)
-    {
-        $username = $request->username;
-        $password = $request->password;
-        $this->validate(request(), ["username" => "required", "password" => "required"]);
-        $admin_count = Admin::where(["email" => $username, "password" => $password])->count();
-
-        if ($admin_count) {
-            $admin = Admin::where(["email" => $username, "password" => $password])->first();
-            Session::put("admin_id", $admin->id);
-            echo $admin;
-            return redirect("admin/panel");
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('dashboard');
         } else {
-            Session::flash("massage", "User or Pass Incorrect!");
-            return redirect()->back();
+            \Illuminate\Support\Facades\Session::flash('message', 'Invalid Email or Password');
+
+            return back()->with('message', 'wrong');
         }
     }
 
-    public function panel()
+    public function dashboard()
     {
-//        if (Session::has("admin_id")) ;
-        return view("admin/panel");
+        return view('admin.panel');
+    }
 
+    public function view_category()
+    {
+        return view('admin.category');
+    }
 
-//    else
-//        {
-//            return redirect('login');
-//        }
+    //todo: admin logout functionality
+    public function logout()
+    {
+        Auth::guard('admin')->logout();
+
+        return redirect()->route('login.form');
+    }
+
+    public function updatePassword()
+    {
+        return view('admin/update_password');
+    }
+
+    public function checkCurrentPassword(Request $request)
+    {
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('dashboard');
+        }
+        //        else {
+        //            Session::flash('error-message', 'Invalid Email or Password');
+        //            return back();
+        //        }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +32,23 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware(['auth:admin', 'verified'])->name('admin.dashboard');
+
+require __DIR__.'/adminauth.php';
+//Admin
+Route::get('login-form', [AdminController::class, 'login_form'])->name('admin.login.form');
+Route::post('login-functionality', [AdminController::class, 'login'])->name('login.functionality');
+Route::group(['middleware' => 'admin'], function () {
+    Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('admin/update-password', [AdminController::class, 'updatePassword'])->name('update-password');
+    Route::post('check-current-password', [AdminController::class, 'checkCurrentPassword'])->name('checkCurrentPassword');
+    Route::get('/view_category', [AdminController::class, 'view_category'])->name('view_category');
+    Route::get('logout', [AdminController::class, 'logout'])->name('logout');
+});
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 //Route::resource('user',UserController::class);

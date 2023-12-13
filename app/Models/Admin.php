@@ -4,11 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Admin extends Model
 {
-   public function product()
-   {
-       return $this->hasMany(related: Product::class);
-   }
+    use HasFactory,HasApiTokens,Notifiable;
+    use SoftDeletes;
+
+    protected $guard = 'admin';
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
+        //        'remember_token',
+    ];
 }

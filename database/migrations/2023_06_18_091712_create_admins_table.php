@@ -12,12 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('admins', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('fname');
-            $table->string('lname');
-            $table->string('profile');
-            $table->string('email');
+            $table->id();
+            $table->string('username');
+            $table->string('name');
+            $table->string('type')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('email')->unique();
             $table->string('password');
+            $table->string('image')->nullable();
+            $table->tinyInteger('status')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
 
         });
     }
