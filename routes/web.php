@@ -17,31 +17,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';
-
-
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth:admin', 'verified'])->name('admin.dashboard');
-
-require __DIR__.'/adminauth.php';
 //Admin
 Route::get('login-form', [AdminController::class, 'login_form'])->name('admin.login.form');
-Route::post('login-functionality', [AdminController::class, 'login'])->name('login.functionality');
+Route::post('login-functionality', [AdminController::class, 'login_admin'])->name('login.functionality');
 Route::group(['middleware' => 'admin'], function () {
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('admin/update-password', [AdminController::class, 'updatePassword'])->name('update-password');
@@ -49,8 +32,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/view_category', [AdminController::class, 'view_category'])->name('view_category');
     Route::get('logout', [AdminController::class, 'logout'])->name('logout');
 });
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductController;
+
 //Route::resource('user',UserController::class);
 //Route::resource('/product',ProductController::class);
 Route::resource('products', ProductController::class);
