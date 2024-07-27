@@ -16,14 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-<<<<<<< HEAD
-Route::get('/index', function () {
-=======
-Route::get('/', function () {
->>>>>>> 702f11fc6df011077e751c9a9c9a7b2d0a6c9cd8
-    return view('index');
-});
-
 
 
 //Admin
