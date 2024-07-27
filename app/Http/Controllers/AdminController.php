@@ -15,7 +15,7 @@ class AdminController extends Controller
         return view('auth.login');
     }
 
-    public function login(LoginRequest $request)
+    public function login_admin(LoginRequest $request)
     {
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('dashboard');
